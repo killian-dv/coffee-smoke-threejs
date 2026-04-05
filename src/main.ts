@@ -100,7 +100,7 @@ perlinTexture.wrapT = THREE.RepeatWrapping;
 
 // Material
 const smokeMaterial = new THREE.ShaderMaterial({
-  // wireframe: true,
+  wireframe: true,
   transparent: true,
   vertexShader: smokeVertexShader,
   fragmentShader: smokeFragmentShader,
