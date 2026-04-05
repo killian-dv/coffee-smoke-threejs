@@ -2,6 +2,8 @@ import GUI from "lil-gui";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import smokeFragmentShader from "./shaders/coffee-smoke/fragment.glsl?raw";
+import smokeVertexShader from "./shaders/coffee-smoke/vertex.glsl?raw";
 import "./style.css";
 
 /**
@@ -91,10 +93,22 @@ const smokeGeometry = new THREE.PlaneGeometry(1, 1, 16, 64);
 smokeGeometry.translate(0, 0.5, 0);
 smokeGeometry.scale(1.5, 6, 1.5);
 
+// Perlin texture
+const perlinTexture = textureLoader.load("./perlin.png");
+perlinTexture.wrapS = THREE.RepeatWrapping;
+perlinTexture.wrapT = THREE.RepeatWrapping;
+
 // Material
-const smokeMaterial = new THREE.MeshBasicMaterial({
-  color: "cyan",
-  wireframe: true,
+const smokeMaterial = new THREE.ShaderMaterial({
+  // wireframe: true,
+  transparent: true,
+  vertexShader: smokeVertexShader,
+  fragmentShader: smokeFragmentShader,
+  side: THREE.DoubleSide,
+  uniforms: {
+    uPerlinTexture: new THREE.Uniform(perlinTexture),
+    uTime: new THREE.Uniform(0),
+  },
 });
 
 // Mesh
@@ -109,6 +123,8 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+
+  smokeMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
   controls.update();
