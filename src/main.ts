@@ -1,16 +1,15 @@
-import GUI from "lil-gui";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import smokeFragmentShader from "./shaders/coffee-smoke/fragment.glsl?raw";
-import smokeVertexShader from "./shaders/coffee-smoke/vertex.glsl?raw";
+import smokeFragmentShader from "./shaders/coffee-smoke/fragment.glsl";
+import smokeVertexShader from "./shaders/coffee-smoke/vertex.glsl";
 import "./style.css";
 
 /**
  * Base
  */
 // Debug
-const gui = new GUI();
+// const gui = new GUI();
 
 // Canvas
 const canvas = document.querySelector<HTMLCanvasElement>("canvas.webgl")!;
